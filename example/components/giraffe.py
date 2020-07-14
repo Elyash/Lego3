@@ -5,7 +5,7 @@ import asyncio
 import contextlib
 import os
 
-from Lego3.lego.components import RPyCComponent
+from Octavius.lego.components import RPyCComponent
 
 
 class Giraffe(RPyCComponent):

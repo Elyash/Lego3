@@ -5,7 +5,7 @@ This module is a library for Tetanus functionality.
 """
 import subprocess
 
-from Lego3.example.components.giraffe import Giraffe
+from Octavius.example.components.giraffe import Giraffe
 
 # Final version of Tetanus.
 TOOL = 'ncat -l {} --keep-open --udp --exec "/bin/cat"'

@@ -2,7 +2,7 @@
 
 ## General
 
-Our conventions based on [Google Python Conventions](https://google.github.io/styleguide/pyguide.html) with several matches to [Lego3 Project](https://github.com/Steven17D/Lego3).
+Our conventions based on [Google Python Conventions](https://google.github.io/styleguide/pyguide.html) with several matches to [Octavius Project](https://github.com/Steven17D/Octavius).
 
 Before continue to read the following conventions, make sure you understand the above Google conventions.
 

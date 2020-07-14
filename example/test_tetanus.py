@@ -4,8 +4,8 @@ from typing import List
 import asyncio
 import pytest
 
-from Lego3.example.components.giraffe import Giraffe
-from Lego3.example.libs.tetanus import Tetanus
+from Octavius.example.components.giraffe import Giraffe
+from Octavius.example.libs.tetanus import Tetanus
 
 TEST_VERSION = 3
 

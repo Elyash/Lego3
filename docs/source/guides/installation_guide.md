@@ -36,7 +36,7 @@ For installing Lego 3 itself, follow the next steps.
 Clone Lego 3 repository and checkout to `master` branch:
 
 ```bash
-git clone git@github.com:Steven17D/Lego3.git
+git clone git@github.com:Steven17D/Octavius.git
 git checkout master
 ```
 

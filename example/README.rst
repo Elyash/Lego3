@@ -1,7 +1,7 @@
-Lego3 Example
+Octavius Example
 ===============
-As Lego3 has a different usage than the old Lego version, we've added a basic example.
-Newcomers should look at this example and hopefully understand better the new features of Lego3.
+As Octavius has a different usage than the old Lego version, we've added a basic example.
+Newcomers should look at this example and hopefully understand better the new features of Octavius.
 The theme of this example is **the Zoo.**
 
 Components

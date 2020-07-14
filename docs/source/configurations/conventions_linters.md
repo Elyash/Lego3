@@ -15,7 +15,7 @@ python3.8 -m pip install pylint
 Pylint your code:
 
 ```bash
-python3.8 -m pylint --rcfile <pylintrc file path> <Lego3 home dir>
+python3.8 -m pylint --rcfile <pylintrc file path> <Octavius home dir>
 ```
 
 ## MyPy
@@ -33,5 +33,5 @@ python3.8 -m pip install mypy
 Mypy your code:
 
 ```bash
-python3.8 -m mypy --config-file <mypy.ini file path> <Lego3 home dir>
+python3.8 -m mypy --config-file <mypy.ini file path> <Octavius home dir>
 ```

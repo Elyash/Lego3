@@ -29,10 +29,10 @@ jobs:
     - name: Lint with pylint
       run: |
         pip install pylint
-        wget -o pylintrc https://raw.githubusercontent.com/Elyash/Lego3-WorkStation/master/configurations/.pylintrc
+        wget -o pylintrc https://raw.githubusercontent.com/Elyash/Octavius-WorkStation/master/configurations/.pylintrc
         python -m pylint --rcfile pylintrc
     - name: Run MyPy
       run: |
         pip install mypy
-        wget -o mypy.ini https://raw.githubusercontent.com/Elyash/Lego3-WorkStation/master/configurations/.mypy.ini
+        wget -o mypy.ini https://raw.githubusercontent.com/Elyash/Octavius-WorkStation/master/configurations/.mypy.ini
         python -m mypy --config-file mypy.ini

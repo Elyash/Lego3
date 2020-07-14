@@ -12,7 +12,7 @@ import pytest
 import rpyc
 
 from . import component_factory
-from Lego3.lego.components import BaseComponent
+from Octavius.lego.components import BaseComponent
 
 LEGO_MARK = 'lego'
 
