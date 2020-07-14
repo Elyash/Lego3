@@ -26,7 +26,7 @@ class Zebra(RPyCComponent):
 
         executor = None
         received_index = 1
-        payload = 'Octavius is great'
+        payload = '13 Jun 9:31:28 sysint; Octavius is great\n'
         src_port = random.randint(10000, 20000)
 
         r_scapy = self.connection.modules['scapy.all']
