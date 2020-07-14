@@ -6,10 +6,10 @@ import contextlib
 import time
 import os
 
-from .loggable import LoggableRPyCComponent
+from .linux import LinuxRPyCComponent
 
 
-class Giraffe(LoggableRPyCComponent):
+class Giraffe(LinuxRPyCComponent):
     """An extended interface for Giraffe component."""
 
     pass

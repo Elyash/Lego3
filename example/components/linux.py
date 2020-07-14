@@ -19,11 +19,11 @@ class LogLine(NamedTuple):
 UNALLOWED_LOG = LogLine(None, None, None, 'Octavius')
 
 
-class LoggableRPyCComponent(RPyCComponent):
-    """An extended interface for RPyC component with logs monitoring funcitonality."""
+class LinuxRPyCComponent(RPyCComponent):
+    """An extended interface for RPyC component from linux type."""
 
     def __init__(self, *args, **kwargs):
-        """Initializes a loggable RPyC component."""
+        """Initializes a linux RPyC component."""
 
         super().__init__(*args, **kwargs)
 
