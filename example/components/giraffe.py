@@ -4,7 +4,7 @@ from typing import Any, Optional
 import contextlib
 import watchdog.events
 
-from Lego3.lego.components import RPyCComponent
+from Octavius.lego.components import RPyCComponent
 
 
 class Giraffe(RPyCComponent):

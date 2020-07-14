@@ -12,12 +12,12 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('../../../Lego3'))
+sys.path.insert(0, os.path.abspath('../../../Octavius'))
 import sphinx_rtd_theme
 
 # -- Project information -----------------------------------------------------
 
-project = 'Lego3'
+project = 'Octavius'
 copyright = '2020, Samech'
 author = 'Samech'
 

@@ -1,7 +1,7 @@
-Tests with Lego3
+Tests with Octavius
 ===================
 
-Here you will see a example for Lego3 usage.
+Here you will see a example for Octavius usage.
 
 .. toctree::
    :maxdepth: 1

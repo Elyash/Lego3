@@ -114,8 +114,8 @@ class LegoManager(rpyc.Service):
 
         # TODO: Get this dictionary from Lego's DB/management files.
         components_to_class_path = {
-            'zebra': 'Lego3.example.components.zebra.Zebra',
-            'giraffe': 'Lego3.example.components.giraffe.Giraffe',
+            'zebra': 'Octavius.example.components.zebra.Zebra',
+            'giraffe': 'Octavius.example.components.giraffe.Giraffe',
         }
 
         test_components = (component.strip() for component in query.split('and'))
@@ -160,7 +160,7 @@ class LegoManager(rpyc.Service):
         Returns:
             Allocated requested setup as list of tuples made of
             components names and corresponding paths to Components classes.
-            e.g. [('zebra.alice', 'Lego3.example.components.zebra.Zebra'), ...]
+            e.g. [('zebra.alice', 'Octavius.example.components.zebra.Zebra'), ...]
         """
         return self._allocation(self._run_query(query), exclusive)
 

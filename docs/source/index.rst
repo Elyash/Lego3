@@ -1,7 +1,7 @@
-Welcome to Lego3's documentation!
+Welcome to Octavius's documentation!
 =================================
 
-Lego3 is a new distributed testing infrastructure used to test and monitor our
+Octavius is a new distributed testing infrastructure used to test and monitor our
 products in the network.
 
 Lego 3 is a completely new project, written from scratch, but its requirements based on insights
@@ -9,13 +9,13 @@ from the previous Lego infrastructure we used.
 
 Features
 --------
-* **Zero deploy** - With Lego3, if your component support SSH and python, you won't have to upload anything to allow
+* **Zero deploy** - With Octavius, if your component support SSH and python, you won't have to upload anything to allow
   your tests to run code on your setup components!
 
-* **New Technologies** - Lego3 was developed in python3.8 and therefore supports new python3
-  features and new third party libraries. You can read on more new technologies used in Lego3 below.
+* **New Technologies** - Octavius was developed in python3.8 and therefore supports new python3
+  features and new third party libraries. You can read on more new technologies used in Octavius below.
 
-* **Resource Management** - Lego3 have a lego manager which can allocate unused components for
+* **Resource Management** - Octavius have a lego manager which can allocate unused components for
   your tests. It can also control the timing of the tests to allow maximum usage of the setup.
   Lego manager will also provide information on the state of the setup.
 

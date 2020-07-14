@@ -1,4 +1,4 @@
-Lego3's tutorial
+Octavius's tutorial
 =================================
 
 This tutorial has 2 main purposes:

@@ -1,12 +1,12 @@
-Common Lego3 Usage
+Common Octavius Usage
 =====================
 
-Here you will see the common usage of Lego3.
+Here you will see the common usage of Octavius.
 
-Lego3.lego.pytest\_lego.plugin module
+Octavius.lego.pytest\_lego.plugin module
 -------------------------------------
 
-.. automodule:: Lego3.lego.pytest_lego.plugin
+.. automodule:: Octavius.lego.pytest_lego.plugin
 
 Components fixture
 ------------------
@@ -15,20 +15,20 @@ The components argument to test function is actually a pytest fixture with scope
 It means the component objects will be initialized before each test and closed after the test end.
 Here is the docstring of components fixture (with an example for basic usage):
 
-.. autofunction:: Lego3.lego.pytest_lego.plugin.components
+.. autofunction:: Octavius.lego.pytest_lego.plugin.components
 
 Acquire setup
 -------------
 Here is the API lego manager exposes to outer service (and specifically to lego plugin) to get
 the available component for the test's setup.
 
-Lego3.lego\_manager.lego\_manager module
+Octavius.lego\_manager.lego\_manager module
 -------------------------------------------
 
-.. automodule:: Lego3.lego_manager.lego_manager
+.. automodule:: Octavius.lego_manager.lego_manager
 
 LegoManager class
 -------------------------------------------
 
-.. autoclass:: Lego3.lego_manager.lego_manager.LegoManager
+.. autoclass:: Octavius.lego_manager.lego_manager.LegoManager
    :members: exposed_acquire_setup

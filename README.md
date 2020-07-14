@@ -1,6 +1,6 @@
 # Octavius
 
-Octavius repository contains Lego3 plugin, components, and example for full test specification.
+Octavius repository contains Octavius plugin, components, and example for full test specification.
 
 ## Usage
 

@@ -8,7 +8,7 @@ import contextlib
 import importlib
 import rpyc
 
-from Lego3.lego.components import BaseComponent
+from Octavius.lego.components import BaseComponent
 
 
 def _get_component_class(component_path: str) -> Type[BaseComponent]:
@@ -16,7 +16,7 @@ def _get_component_class(component_path: str) -> Type[BaseComponent]:
 
     Args:
         component_path: The path to the requested component class.
-                        For example, Lego3.example.components.zebra.Zebra
+                        For example, Octavius.example.components.zebra.Zebra
 
     Returns:
         The component's class object.
