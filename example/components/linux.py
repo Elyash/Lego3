@@ -3,6 +3,7 @@ from typing import Any, TextIO, List
 
 import asyncio
 import contextlib
+import pathlib
 import click
 import colored
 
@@ -10,15 +11,13 @@ from Octavius.lego.components import RPyCComponent
 
 
 class LinuxRPyCComponent(RPyCComponent):
-    """An extended interface for RPyC component from linux type."""
+    """An extended interface for RPyC component running linux."""
 
     def __init__(self, *args, **kwargs) -> None:
-        """Initializes a linux RPyC component."""
-
         super().__init__(*args, **kwargs)
 
-        self._unallowed_logs: List[str] = list()
-        self._allowed_logs: List[str] = list()
+        self._unallowed_logs: List[str] = ['Really bad error']
+        self._allowed_logs: List[str] = ['Octavius']
         self._expected_logs: List[str] = list()
 
     @property
@@ -31,16 +30,16 @@ class LinuxRPyCComponent(RPyCComponent):
     def allowed_logs(self) -> List[str]:
         """Gets the allowed logs."""
 
-        return self._unallowed_logs
+        return self._allowed_logs
 
     @property
     def expected_logs(self) -> List[str]:
         """Gets the expected logs."""
 
-        return self._unallowed_logs
+        return self._expected_logs
 
     @contextlib.contextmanager
-    def monitor_logs(self, path: str) -> Any:
+    def monitor_logs(self, path: pathlib.Path) -> Any:
         """Monitors a file on the remote machine.
 
         Args:
@@ -56,7 +55,7 @@ class LinuxRPyCComponent(RPyCComponent):
         finally:
             monitoring.cancel()
 
-    async def _monitor_logs(self, path: str) -> Any:
+    async def _monitor_logs(self, path: pathlib.Path) -> Any:
         """Monitors a file on the remote machine.
 
         This is an asyncio task.
@@ -77,29 +76,44 @@ class LinuxRPyCComponent(RPyCComponent):
                 await asyncio.sleep(1) # Pass control to event loop
         # Task Destruction
         except asyncio.exceptions.CancelledError:
-            self._monitor_change(log_file)
+            self._monitor_change(log_file, final=True)
         finally:
             log_file.close()
 
-    def _monitor_change(self, log_file: TextIO) -> None:
-        """Monitors on changes in a file.
+    def _monitor_change(self, log_file: TextIO, final: bool = False) -> None:
+        """Monitors changes in a file.
 
         Args:
-            log_file: The file to monitor on
+            log_file: The file to monitor.
+            final: Whether this is the final monitoring before exit.
         """
 
-        for new_log_line in log_file.read().split('\n'):
+        for new_log_line in log_file:
             if new_log_line:
-                self._monitor_log_line(new_log_line)
+                self.monitor_log_line(new_log_line)
 
-    def _monitor_log_line(self, log_line: str) -> None:
-        """Parses a new log line.
+        if final:
+            assert not self.expected_logs
+
+    def monitor_log_line(self, log_line: str) -> None:
+        """Monitors one line from the log.
+
+        Override this method to parse the logs line in a different way.
 
         Args:
             log_line: The new log line.
         """
 
-        self._validate_log_with_user(log_line)
+        for unallowed_log in self.unallowed_logs:
+            assert unallowed_log not in log_line
+
+        for expected_log in self.expected_logs:
+            if expected_log in log_line:
+                self.expected_logs.remove(expected_log)
+
+        for allowed_log in self.allowed_logs:
+            if allowed_log in log_line:
+                self._validate_log_with_user(log_line)
 
     def _validate_log_with_user(self, log_line: str) -> None:
         """Validates with the user interactively whether a log line is valid.
