@@ -1,12 +1,10 @@
 """Giraffe component is the API to Giraffe component."""
-from typing import Any, Optional, TextIO, List, NamedTuple
+from typing import Any, TextIO, List
 
 import asyncio
+import contextlib
 import click
 import colored
-import contextlib
-import time
-import os
 
 from Octavius.lego.components import RPyCComponent
 
@@ -14,7 +12,7 @@ from Octavius.lego.components import RPyCComponent
 class LinuxRPyCComponent(RPyCComponent):
     """An extended interface for RPyC component from linux type."""
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         """Initializes a linux RPyC component."""
 
         super().__init__(*args, **kwargs)
@@ -43,10 +41,10 @@ class LinuxRPyCComponent(RPyCComponent):
 
     @contextlib.contextmanager
     def monitor_logs(self, path: str) -> Any:
-        """Monitors on file or directory in this remove machine.
+        """Monitors a file on the remote machine.
 
         Args:
-            path: The file or directory to monitor.
+            path: The file to monitor.
         """
 
         monitoring = asyncio.create_task(self._monitor_logs(path))
@@ -59,12 +57,12 @@ class LinuxRPyCComponent(RPyCComponent):
             monitoring.cancel()
 
     async def _monitor_logs(self, path: str) -> Any:
-        """Monitors on file or directory in this remove machine.
+        """Monitors a file on the remote machine.
 
         This is an asyncio task.
 
         Args:
-            path: The file or directory to monitor.
+            path: The file to monitor.
         """
 
         # Task Initialization
@@ -94,7 +92,7 @@ class LinuxRPyCComponent(RPyCComponent):
             if new_log_line:
                 self._monitor_log_line(new_log_line)
 
-    def _monitor_log_line(self, log_line: str):
+    def _monitor_log_line(self, log_line: str) -> None:
         """Parses a new log line.
 
         Args:
