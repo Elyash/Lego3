@@ -117,10 +117,28 @@ class LinuxRPyCComponent(RPyCComponent):
             log_line = LogLine(_time, server, task, message)
 
             for unallowed_log in self.unallowed_logs:
-                assert unallowed_log.message not in log_line.message
+                if unallowed_log.message in log_line.message:
+                    with self.manage_io():
+                        assert 'n' in input(f'Is {log_line.message} valid?')
         except ValueError:
             if not log_line:
                 pass
             else:
                 raise
 
+    @contextlib.contextmanager
+    def manage_io(self) -> Any:
+        """Asks the user for input.
+
+        Args:
+            message: The message to print.
+        """
+
+        # Suspend input capture by pytest so user input can be recorded here
+        capture_manager = self.pytest_config.pluginmanager.getplugin('capturemanager')
+        capture_manager.suspend_global_capture(in_=True)
+
+        yield
+
+        # resume capture after question have been asked
+        capture_manager.resume_global_capture()

@@ -2,7 +2,7 @@
 Component object provides the API which tests and libs will use to run code on the component.
 """
 from __future__ import annotations
-from typing import Optional, Type, TypeVar
+from typing import Optional, Type, TypeVar, Any
 from types import TracebackType
 import abc
 import socket
@@ -78,7 +78,8 @@ class RPyCComponent(BaseComponent):
             self,
             hostname: str,
             username: Optional[str] = None,
-            password: Optional[str] = None
+            password: Optional[str] = None,
+            pytest_config: Any = None
     ) -> None:
         """Initiates RPyC connection to SlaveService on remote machine.
 
@@ -89,16 +90,25 @@ class RPyCComponent(BaseComponent):
             hostname: Hostname of remote machine.
             username: Username for SSH login (if needed).
             password: Password for SSH login (if needed).
+            pytest_config: PyTest configruation of the current test.
         """
         rpyc_connection = RPyCConnection(hostname, username, password)
 
         super().__init__(rpyc_connection)
+
+        self._pytest_config = pytest_config
 
     @property
     def connection(self) -> rpyc.Connection:
         """The RPyc connection to component."""
 
         return self._connection.rpyc
+
+    @property
+    def pytest_config(self) -> Any:
+        """The PyTest configuration of the current test."""
+
+        return self._pytest_config
 
     def getpid(self) -> int:
         """Gets the PID of the service process."""
