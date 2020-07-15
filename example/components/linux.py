@@ -2,21 +2,13 @@
 from typing import Any, Optional, TextIO, List, NamedTuple
 
 import asyncio
+import click
+import colored
 import contextlib
 import time
 import os
 
 from Octavius.lego.components import RPyCComponent
-
-
-class LogLine(NamedTuple):
-    time: time.struct_time
-    server: str
-    task: str
-    message: str
-
-
-UNALLOWED_LOG = LogLine(None, None, None, 'Octavius')
 
 
 class LinuxRPyCComponent(RPyCComponent):
@@ -27,24 +19,24 @@ class LinuxRPyCComponent(RPyCComponent):
 
         super().__init__(*args, **kwargs)
 
-        self._unallowed_logs: List[LogLine] = [UNALLOWED_LOG]
-        self._allowed_logs: List[LogLine] = list()
-        self._expected_logs: List[LogLine] = list()
+        self._unallowed_logs: List[str] = list()
+        self._allowed_logs: List[str] = list()
+        self._expected_logs: List[str] = list()
 
     @property
-    def unallowed_logs(self) -> List[LogLine]:
+    def unallowed_logs(self) -> List[str]:
         """Gets the unallowed logs."""
 
         return self._unallowed_logs
 
     @property
-    def allowed_logs(self) -> List[LogLine]:
+    def allowed_logs(self) -> List[str]:
         """Gets the allowed logs."""
 
         return self._unallowed_logs
 
     @property
-    def expected_logs(self) -> List[LogLine]:
+    def expected_logs(self) -> List[str]:
         """Gets the expected logs."""
 
         return self._unallowed_logs
@@ -99,7 +91,8 @@ class LinuxRPyCComponent(RPyCComponent):
         """
 
         for new_log_line in log_file.read().split('\n'):
-            self._monitor_log_line(new_log_line)
+            if new_log_line:
+                self._monitor_log_line(new_log_line)
 
     def _monitor_log_line(self, log_line: str):
         """Parses a new log line.
@@ -108,23 +101,21 @@ class LinuxRPyCComponent(RPyCComponent):
             log_line: The new log line.
         """
 
-        try:
-            month, day, clock, server, task, *message = log_line.split()
+        self._validate_log_with_user(log_line)
 
-            _time = time.strptime(month + day + clock, '%d%b%H:%M:%S')
-            message = ' '.join(message)
+    def _validate_log_with_user(self, log_line: str) -> None:
+        """Validates with the user interactively whether a log line is valid.
 
-            log_line = LogLine(_time, server, task, message)
+        Args:
+            log_line: The line from the log to validate.
+        """
 
-            for unallowed_log in self.unallowed_logs:
-                if unallowed_log.message in log_line.message:
-                    with self.manage_io():
-                        assert 'n' in input(f'Is {log_line.message} valid?')
-        except ValueError:
-            if not log_line:
-                pass
-            else:
-                raise
+        validation_format = colored.fg('blue') + colored.bg('white')
+        log_format = colored.fg('red') + colored.bg('white')
+
+        with self.manage_io():
+            print(colored.stylize('\nPlease confirm the following log:', validation_format))
+            assert click.confirm(colored.stylize(log_line, log_format))
 
     @contextlib.contextmanager
     def manage_io(self) -> Any:
