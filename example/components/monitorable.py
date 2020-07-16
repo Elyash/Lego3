@@ -10,6 +10,7 @@ import colored
 import scapy.all
 import queue
 
+from ..libs import prompt
 from Octavius.lego.components import RPyCComponent
 
 
@@ -139,26 +140,9 @@ class MonitorableRPyCComponent(RPyCComponent):
         validation_format = colored.fg('blue') + colored.bg('white')
         log_format = colored.fg('red') + colored.bg('white')
 
-        with self.manage_io():
+        with prompt.manage_io():
             print(colored.stylize('\nPlease confirm the following log:', validation_format))
             assert click.confirm(colored.stylize(log_line, log_format))
-
-    @contextlib.contextmanager
-    def manage_io(self) -> Any:
-        """Asks the user for input.
-
-        Args:
-            message: The message to print.
-        """
-
-        # Suspend input capture by pytest so user input can be recorded here
-        capture_manager = self.pytest_config.pluginmanager.getplugin('capturemanager')
-        capture_manager.suspend_global_capture(in_=True)
-
-        yield
-
-        # resume capture after input inserstion
-        capture_manager.resume_global_capture()
 
     @contextlib.contextmanager
     def sniff_packets(self, *args, **kwargs) -> Any:

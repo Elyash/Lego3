@@ -2,7 +2,7 @@
 Component object provides the API which tests and libs will use to run code on the component.
 """
 from __future__ import annotations
-from typing import Optional, Type, TypeVar, Any
+from typing import Optional, Type, TypeVar
 from types import TracebackType
 import abc
 import socket
@@ -22,17 +22,15 @@ class BaseComponent(metaclass=abc.ABCMeta):
     complex functionality add appropriate Lib.
     """
 
-    def __init__(self, connection: BaseConnection, pytest_config: Any) -> None:
+    def __init__(self, connection: BaseConnection) -> None:
         """Initiates the connection to remote machine.
 
         Args:
             connection: Connection to the component. Every component should initialize it's
                         appropriate connection in __init__ and then pass it to BaseComponent.
-            pytest_config: PyTest configruation of the current test.
         """
 
         self._connection: BaseConnection = connection
-        self._pytest_config: Any = pytest_config
 
     def __enter__(self: Component) -> Component:
         """Allowing the use of 'with' statement with components objects.
@@ -67,12 +65,6 @@ class BaseComponent(metaclass=abc.ABCMeta):
     def connection(self) -> BaseConnection:
         """Connection to the component."""
 
-    @property
-    def pytest_config(self) -> Any:
-        """The PyTest configuration of the current test."""
-
-        return self._pytest_config
-
 
 class RPyCComponent(BaseComponent):
     """
@@ -89,7 +81,6 @@ class RPyCComponent(BaseComponent):
             hostname: str,
             username: Optional[str] = None,
             password: Optional[str] = None,
-            pytest_config: Any = None
     ) -> None:
         """Initiates RPyC connection to SlaveService on remote machine.
 
@@ -100,12 +91,11 @@ class RPyCComponent(BaseComponent):
             hostname: Hostname of remote machine.
             username: Username for SSH login (if needed).
             password: Password for SSH login (if needed).
-            pytest_config: PyTest configruation of the current test.
         """
 
         rpyc_connection = RPyCConnection(hostname, username, password)
 
-        super().__init__(rpyc_connection, pytest_config=pytest_config)
+        super().__init__(rpyc_connection)
 
     @property
     def connection(self) -> rpyc.Connection:

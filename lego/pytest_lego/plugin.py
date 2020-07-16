@@ -11,6 +11,7 @@ import functools
 import pytest
 import rpyc
 
+import pytest_lego
 from . import component_factory
 from Octavius.lego.components import BaseComponent
 
@@ -97,6 +98,8 @@ def pytest_configure(config: Any) -> None:
     Args:
         config: A PyTest configuration object.
     """
+
+    pytest_lego.PYTEST_CONFIG = config
 
     config.addinivalue_line(
         'markers',
