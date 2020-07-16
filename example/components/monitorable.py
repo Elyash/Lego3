@@ -13,8 +13,8 @@ import queue
 from Octavius.lego.components import RPyCComponent
 
 
-class LinuxRPyCComponent(RPyCComponent):
-    """An extended interface for RPyC component running linux."""
+class MonitorableRPyCComponent(RPyCComponent):
+    """An extended interface for RPyC component with monitoring capabilities."""
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
