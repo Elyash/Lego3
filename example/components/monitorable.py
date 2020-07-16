@@ -1,4 +1,4 @@
-"""Giraffe component is the API to Giraffe component."""
+"""Monitorable component is the base class of each component with monitoring ability."""
 from typing import Any, TextIO, List, Callable, Optional
 
 import asyncio
@@ -11,6 +11,7 @@ import scapy.all
 import queue
 
 from ..libs import prompt
+from .. import helpers
 from Octavius.lego.components import RPyCComponent
 
 
@@ -53,23 +54,7 @@ class MonitorableRPyCComponent(RPyCComponent):
 
         return self._unallowed_packets
 
-    @contextlib.contextmanager
-    def monitor_logs(self, path: pathlib.Path) -> Any:
-        """Monitors a file on the remote machine.
-
-        Args:
-            path: The file to monitor.
-        """
-
-        monitoring = asyncio.create_task(self._monitor_logs(path))
-        yield
-        try:
-            monitoring.result() # Raises the task exceptions
-        except asyncio.exceptions.InvalidStateError:
-            pass
-        finally:
-            monitoring.cancel()
-
+    @helpers.run_as_task
     async def _monitor_logs(self, path: pathlib.Path) -> Any:
         """Monitors a file on the remote machine.
 
