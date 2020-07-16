@@ -1,11 +1,14 @@
 """Giraffe component is the API to Giraffe component."""
-from typing import Any, TextIO, List
+from typing import Any, TextIO, List, Callable, Optional
 
 import asyncio
 import contextlib
+import functools
 import pathlib
 import click
 import colored
+import scapy.all
+import queue
 
 from Octavius.lego.components import RPyCComponent
 
@@ -16,9 +19,14 @@ class LinuxRPyCComponent(RPyCComponent):
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
 
+        # Logs monitoring class variables
         self._unallowed_logs: List[str] = ['Really bad error']
         self._allowed_logs: List[str] = ['Octavius']
         self._expected_logs: List[str] = list()
+
+        # Packets monitoring class vairables
+        self._received_packets: queue.Queue[scapy.all.packet] = queue.Queue()
+        self._unallowed_packets: List[bytes] = [b'Octavius']
 
     @property
     def unallowed_logs(self) -> List[str]:
@@ -37,6 +45,12 @@ class LinuxRPyCComponent(RPyCComponent):
         """Gets the expected logs."""
 
         return self._expected_logs
+
+    @property
+    def unallowed_packets(self) -> List[bytes]:
+        """Gets the unallowed packets."""
+
+        return self._unallowed_packets
 
     @contextlib.contextmanager
     def monitor_logs(self, path: pathlib.Path) -> Any:
@@ -143,5 +157,37 @@ class LinuxRPyCComponent(RPyCComponent):
 
         yield
 
-        # resume capture after question have been asked
+        # resume capture after input inserstion
         capture_manager.resume_global_capture()
+
+    @contextlib.contextmanager
+    def sniff_packets(self, *args, **kwargs) -> Any:
+        """Sniffs packets by AsyncSniffer and saves them for later monitoring."""
+
+        original_prn = kwargs['prn'] if 'prn' in kwargs.keys() else None
+        kwargs['prn'] = functools.partial(self._save_packet_wrapper, original_prn=original_prn)
+
+        r_sniffer = self.connection.modules['scapy.all'].AsyncSniffer(*args, **kwargs)
+        r_sniffer.start()
+
+        yield r_sniffer
+
+        packets = r_sniffer.stop()
+
+    def _save_packet_wrapper(
+            self,
+            packet: scapy.all.scapy.layers.l2.Ether,
+            original_prn: Optional[Callable[[scapy.all.scapy.layers.l2.Ether], Any]] = None
+        ) -> None:
+        """Saves the packet to received queue and calls the original prn.
+
+        Args:
+            packet: The received packet.
+            original_prn: The original prn callback.
+        """
+
+        self._received_packets.put(packet)
+
+        if original_prn:
+            original_prn(packet)
+
