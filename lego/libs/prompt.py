@@ -3,6 +3,9 @@ from typing import Any
 
 import contextlib
 
+import click
+import colored
+
 import pytest_lego
 
 
