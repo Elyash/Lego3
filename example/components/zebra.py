@@ -4,7 +4,7 @@ import functools
 import random
 import ipaddress
 
-from Octavius.lego.components import RPyCComponent
+from Octavius.lego.components.base import RPyCComponent
 
 
 class Zebra(RPyCComponent):

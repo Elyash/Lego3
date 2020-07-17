@@ -5,8 +5,8 @@ import asyncio
 import pathlib
 import pytest
 
-from Octavius.example.components.giraffe import Giraffe
-from Octavius.example.libs.tetanus import Tetanus
+from .components.giraffe import Giraffe
+from .libs.tetanus import Tetanus
 
 TEST_VERSION = 3
 

@@ -7,9 +7,8 @@ import click
 import colored
 import rpyc
 
-from ..libs import prompt
-
-from Octavius.lego.components import RPyCComponent
+from Octavius.lego.libs import prompt
+from Octavius.lego.components.base import RPyCComponent
 
 
 class Monitor:

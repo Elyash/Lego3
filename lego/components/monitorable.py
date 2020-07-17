@@ -8,10 +8,10 @@ import pathlib
 import queue
 import scapy.all
 
-from .. import helpers
-from .monitor import Monitor, LogsMonitor
+from .helpers.tasks import run_as_task
+from .helpers.monitor import Monitor, LogsMonitor
 
-from Octavius.lego.components import RPyCComponent
+from Octavius.lego.components.base import RPyCComponent
 
 
 class MonitorableRPyCComponent(RPyCComponent):
@@ -33,7 +33,7 @@ class MonitorableRPyCComponent(RPyCComponent):
         }
 
     @property
-    def monitors(self) -> Monitor:
+    def monitors(self) -> Dict[str, Monitor]:
         """Gets all of the monitors."""
 
         return self._monitors
@@ -73,8 +73,8 @@ class MonitorableRPyCComponent(RPyCComponent):
         for name, _ in new_monitors:
             self.remove_monitor(name)
 
-    @helpers.run_as_task
-    async def _monitor_task(self, monitor) -> Any:
+    @run_as_task
+    async def _monitor_task(self, monitor: Monitor) -> Any:
         """Monitor task."""
 
         monitor.start()

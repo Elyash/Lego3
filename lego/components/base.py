@@ -10,7 +10,7 @@ import ipaddress
 
 import rpyc
 
-from .connections import BaseConnection, RPyCConnection
+from Octavius.lego.connections.base import BaseConnection, RPyCConnection
 
 Component = TypeVar('Component', bound='BaseComponent')
 

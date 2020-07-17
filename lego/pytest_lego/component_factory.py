@@ -8,7 +8,7 @@ import contextlib
 import importlib
 import rpyc
 
-from Octavius.lego.components import BaseComponent
+from Octavius.lego.components.base import BaseComponent
 
 
 def _get_component_class(component_path: str) -> Type[BaseComponent]:
