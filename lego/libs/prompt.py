@@ -18,3 +18,19 @@ def manage_io() -> Any:
 
     # Resume capture after input insertion
     capture_manager.resume_global_capture()
+
+
+def validate_with_user(element: Any) -> None:
+    """Validates with the user interactively whether a the element is allowed.
+
+    Args:
+        element: The accepted element to validate.
+    """
+
+    validation_format = colored.fg('blue') + colored.bg('white')
+    element_format = colored.fg('red') + colored.bg('white')
+
+    with manage_io():
+        print(colored.stylize('\nPlease confirm the following element:', validation_format))
+        assert click.confirm(colored.stylize(str(element), element_format))
+

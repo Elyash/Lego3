@@ -2,7 +2,6 @@
 from typing import List
 
 import asyncio
-import pathlib
 import pytest
 
 from .components.giraffe import Giraffe
@@ -111,8 +110,3 @@ class TestsSpecTetanus(TestsSpecGiraffe):
 
         with TestsSpecTetanus._giraffe.monitor():
             await asyncio.gather(*tasks)
-
-    @pytest.mark.lego('zebra.alice')
-    async def test(self, components):
-        with TestsSpecTetanus._giraffe.sniff_packets():
-            await asyncio.sleep(5)

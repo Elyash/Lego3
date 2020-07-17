@@ -1,14 +1,12 @@
 """Monitorable component is the base class of each component with monitoring ability."""
-from typing import Any, TextIO, List, Callable, Optional, Dict
+from typing import Any, TextIO, List, Callable, Optional
 
-import contextlib
 import pathlib
-import click
-import colored
 import rpyc
 
-from Octavius.lego.libs import prompt
 from Octavius.lego.components.base import RPyCComponent
+
+from Octavius.lego.libs.prompt import validate_with_user
 
 
 class Monitor:
@@ -22,7 +20,7 @@ class Monitor:
             unallowed: Optional[List[Any]] = None
         ) -> None:
 
-        init_default_list: Callable[[str], List] = (
+        init_default_list: Callable[[str], List[Any]] = (
             lambda l: list() if l is None else l
         )
 
@@ -80,7 +78,7 @@ class Monitor:
 
         for allowed_element in self.allowed:
             if allowed_element in element:
-                self._validate_with_user(element)
+                validate_with_user(element)
 
     def start(self) -> None:
         """Starts the monitor."""
@@ -100,20 +98,6 @@ class Monitor:
         """The monitor end."""
 
         raise NotImplementedError()
-
-    def _validate_with_user(self, element: Any) -> None:
-        """Validates with the user interactively whether a the element is allowed.
-
-        Args:
-            element: The accepted element to validate.
-        """
-
-        validation_format = colored.fg('blue') + colored.bg('white')
-        element_format = colored.fg('red') + colored.bg('white')
-
-        with prompt.manage_io():
-            print(colored.stylize('\nPlease confirm the following element:', validation_format))
-            assert click.confirm(colored.stylize(str(element), element_format))
 
 
 class LogsMonitor(Monitor):

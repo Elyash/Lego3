@@ -1,5 +1,5 @@
 """Monitorable component is the base class of each component with monitoring ability."""
-from typing import Any, TextIO, List, Callable, Optional, Dict
+from typing import Any, List, Callable, Optional, Dict
 
 import asyncio
 import contextlib
@@ -8,10 +8,10 @@ import pathlib
 import queue
 import scapy.all
 
-from .helpers.tasks import run_as_task
-from .helpers.monitor import Monitor, LogsMonitor
-
+from Octavius.lego.libs.tasks import run_as_task
 from Octavius.lego.components.base import RPyCComponent
+
+from .helpers.monitor import Monitor, LogsMonitor
 
 
 class MonitorableRPyCComponent(RPyCComponent):
@@ -20,7 +20,7 @@ class MonitorableRPyCComponent(RPyCComponent):
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
 
-        self._received_packets: queue.Queue[scapy.all.packet] = queue.Queue()
+        self._received_packets = queue.Queue()
         self._unallowed_packets: List[bytes] = [b'Octavius']
 
         self._monitors: Dict[str, Monitor] = {
@@ -46,7 +46,7 @@ class MonitorableRPyCComponent(RPyCComponent):
 
         self._monitors[name] = monitor
 
-    def remove_monitor(self, name:str) -> None:
+    def remove_monitor(self, name: str) -> None:
         """Removes a monitor."""
 
         del self._monitors[name]
@@ -100,7 +100,7 @@ class MonitorableRPyCComponent(RPyCComponent):
 
         yield r_sniffer
 
-        packets = r_sniffer.stop()
+        r_sniffer.stop()
 
     def _save_packet_wrapper(
             self,
