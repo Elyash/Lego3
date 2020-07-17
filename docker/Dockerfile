@@ -13,7 +13,7 @@ ENV NOTVISIBLE "in users profile"
 RUN echo "export VISIBLE=now" >> /etc/profile
 
 RUN apt-get install -y ncat tcpdump
-RUN pip install rpyc watchdog scapy
+RUN pip install rpyc scapy
 
 CMD ["/usr/sbin/sshd", "-D"]
 

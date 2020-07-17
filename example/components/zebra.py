@@ -4,7 +4,7 @@ import functools
 import random
 import ipaddress
 
-from Octavius.lego.components import RPyCComponent
+from Octavius.lego.components.base import RPyCComponent
 
 
 class Zebra(RPyCComponent):
@@ -26,7 +26,7 @@ class Zebra(RPyCComponent):
 
         executor = None
         received_index = 1
-        payload = 'Octavius is great'
+        payload = '13 Jun 9:31:28 dv-elyash sysint: Octavius is great\n'
         src_port = random.randint(10000, 20000)
 
         r_scapy = self.connection.modules['scapy.all']

@@ -5,12 +5,12 @@ This module is a library for Tetanus functionality.
 """
 import subprocess
 
-from Octavius.example.components.giraffe import Giraffe
+from ..components.giraffe import Giraffe
 
 # Final version of Tetanus.
 TOOL = 'ncat -l {} --keep-open --udp --exec "/bin/cat"'
 # This version caused unwanted logs to be written.
-BUGGY_LOGS_TOOL = TOOL + ' --output log.txt'
+BUGGY_LOGS_TOOL = TOOL + ' --output /log.txt'
 # This version didn't send the received data back.
 BUGGY_SEND_TOOL = 'ncat -l {} --keep-open --udp --exec "/bin/echo lego"'
 

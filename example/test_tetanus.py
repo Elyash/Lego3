@@ -4,8 +4,8 @@ from typing import List
 import asyncio
 import pytest
 
-from Octavius.example.components.giraffe import Giraffe
-from Octavius.example.libs.tetanus import Tetanus
+from .components.giraffe import Giraffe
+from .libs.tetanus import Tetanus
 
 TEST_VERSION = 3
 
@@ -86,7 +86,7 @@ class TestsSpecTetanus(TestsSpecGiraffe):
         """Send packets and expect them back while validating no bad logs written."""
 
         zebra, *_ = components
-        with TestsSpecTetanus._giraffe.monitor_logs(event_handler=None, directory='.'):
+        with TestsSpecTetanus._giraffe.monitor():
             await zebra.send_and_receive(self._giraffe.get_ip(), self._echo_port)
 
     @pytest.mark.lego('zebra.alice and zebra.logan')
@@ -108,5 +108,5 @@ class TestsSpecTetanus(TestsSpecGiraffe):
             tasks.append(asyncio.ensure_future(
                 component.send_and_receive(self._giraffe.get_ip(), self._echo_port)))
 
-        with TestsSpecTetanus._giraffe.monitor_logs(event_handler=None, directory='.'):
+        with TestsSpecTetanus._giraffe.monitor():
             await asyncio.gather(*tasks)

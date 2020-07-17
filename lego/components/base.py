@@ -10,7 +10,7 @@ import ipaddress
 
 import rpyc
 
-from .connections import BaseConnection, RPyCConnection
+from Octavius.lego.connections.base import BaseConnection, RPyCConnection
 
 Component = TypeVar('Component', bound='BaseComponent')
 
@@ -29,7 +29,8 @@ class BaseComponent(metaclass=abc.ABCMeta):
             connection: Connection to the component. Every component should initialize it's
                         appropriate connection in __init__ and then pass it to BaseComponent.
         """
-        self._connection = connection
+
+        self._connection: BaseConnection = connection
 
     def __enter__(self: Component) -> Component:
         """Allowing the use of 'with' statement with components objects.
@@ -52,6 +53,7 @@ class BaseComponent(metaclass=abc.ABCMeta):
             exc_value: Exception value.
             traceback: Exception traceback.
         """
+
         self.close()
         self._connection.close()
 
@@ -78,7 +80,7 @@ class RPyCComponent(BaseComponent):
             self,
             hostname: str,
             username: Optional[str] = None,
-            password: Optional[str] = None
+            password: Optional[str] = None,
     ) -> None:
         """Initiates RPyC connection to SlaveService on remote machine.
 
@@ -90,6 +92,7 @@ class RPyCComponent(BaseComponent):
             username: Username for SSH login (if needed).
             password: Password for SSH login (if needed).
         """
+
         rpyc_connection = RPyCConnection(hostname, username, password)
 
         super().__init__(rpyc_connection)
