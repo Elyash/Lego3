@@ -1,7 +1,7 @@
 """Giraffe component is the API to Giraffe component."""
 
-from .linux import LinuxRPyCComponent
+from Octavius.lego.components.monitorable import MonitorableRPyCComponent
 
 
-class Giraffe(LinuxRPyCComponent):
+class Giraffe(MonitorableRPyCComponent):
     """An extended interface for Giraffe component."""

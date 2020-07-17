@@ -8,7 +8,7 @@ import contextlib
 import importlib
 import rpyc
 
-from Octavius.lego.components import BaseComponent
+from Octavius.lego.components.base import BaseComponent
 
 
 def _get_component_class(component_path: str) -> Type[BaseComponent]:
@@ -44,7 +44,7 @@ def _get_component(component_name: str, component_path: str, pytest_config: Any)
         raise KeyError(f"{component_name} missing in pytest's configuration file.")
 
     component_class = _get_component_class(component_path)
-    return component_class(**component_config, pytest_config=pytest_config)
+    return component_class(**component_config)
 
 
 @contextlib.contextmanager
